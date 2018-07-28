@@ -30,3 +30,4 @@
 
 $app->get('/', App\Action\HomePageAction::class, 'home');
 $app->get('/contracts', App\Action\GetContractsAction::class, 'contracts');
+$app->post('/contracts', App\Action\CreateContractAction::class, 'contracts.create');

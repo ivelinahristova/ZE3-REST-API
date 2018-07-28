@@ -12,6 +12,13 @@ class ContractEntity
     private $price;
     private $rent;
 
+    const TYPE_RENT = 'rent';
+    const TYPE_OWNERSHIP = 'ownership';
+    const TYPES = [
+        self::TYPE_RENT => 1,
+        self::TYPE_OWNERSHIP => 2
+    ];
+
     public function exchangeArray(array $array)
     {
 
