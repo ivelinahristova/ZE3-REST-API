@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Zend\Db\Adapter\AdapterAbstractServiceFactory;
 /**
  * The configuration provider for the App module
  *
@@ -38,6 +38,9 @@ class ConfigProvider
             ],
             'factories'  => [
                 Action\HomePageAction::class => Action\HomePageFactory::class,
+                Action\GetContractsAction::class => Action\GetContractsFactory::class,
+                Model\ContractModel::class => Model\ContractModelFactory::class,
+                'Application\Db\WriteAdapter' => AdapterAbstractServiceFactory::class,
             ],
         ];
     }
