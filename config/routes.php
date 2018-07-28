@@ -28,6 +28,13 @@
 
 /** @var \Zend\Expressive\Application $app */
 
+use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
+
 $app->get('/', App\Action\HomePageAction::class, 'home');
 $app->get('/contracts', App\Action\GetContractsAction::class, 'contracts');
 $app->post('/contracts', App\Action\CreateContractAction::class, 'contracts.create');
+$app->patch('/contracts/:number', [
+        BodyParamsMiddleware::class,
+        App\Action\UpdateContractAction::class
+    ], 'contracts.update');
+$app->delete('/contracts/:number', [App\Action\DeleteContractAction::class], 'contracts.delete');

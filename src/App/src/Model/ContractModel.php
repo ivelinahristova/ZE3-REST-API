@@ -50,7 +50,7 @@ class ContractModel
      * @param $set
      * @return int|null
      */
-    public function createContract($set)
+    public function createContract($set) //@todo: redirect to resource
     {
         if (!isset($set['number'])) {
             throw new \InvalidArgumentException('Number is a required field');
@@ -64,6 +64,7 @@ class ContractModel
         if (!isset($set['end_date'])) {
             throw new \InvalidArgumentException('End Date is a required field');
         }
+
         $contract = null;
         try {
             $contract = $this->getContract($set['number']);
@@ -74,30 +75,7 @@ class ContractModel
             throw new \InvalidArgumentException('Contract with this number already exists');
         }
 
-        $set['type'] = intval($set['type']);
-        if(!in_array($set['type'], ContractEntity::TYPES)) {
-            throw new \InvalidArgumentException('Invalid type');
-        }
-
-        if($set['type'] === ContractEntity::TYPES[ContractEntity::TYPE_OWNERSHIP]) {
-            if (!isset($set['price'])) {
-                throw new \InvalidArgumentException('Price is a required field');
-            }
-
-            if (!is_numeric($set['price'])) {
-                throw new \InvalidArgumentException('Price is a numeric field');
-            }
-        }
-
-        if($set['type'] === ContractEntity::TYPES[ContractEntity::TYPE_RENT]) {
-            if (!isset($set['rent'])) {
-                throw new \InvalidArgumentException('Rent is a required field');
-            }
-
-            if (!is_numeric($set['rent'])) {
-                throw new \InvalidArgumentException('Rent is a numeric field');
-            }
-        }
+        $this->ValidateContract($set);
 
         $set['start_date'] = date("Y-m-d H:i:s", strtotime($set['start_date']));
         $set['end_date'] = date("Y-m-d H:i:s", strtotime($set['end_date']));
@@ -105,5 +83,75 @@ class ContractModel
         $result = $this->table->insert($set);
 
         return ($result === 1) ? $set['number'] : null;
+    }
+
+    /**
+     * @param $set array
+     * @param $number string
+     * @return null|string
+     */
+    public function UpdateContract($set, $number)
+    {
+        try {
+            $this->getContract($number);
+        } catch (\DomainException $exception) {
+            throw new \InvalidArgumentException('Contract with this number does not exist');
+        }
+        catch (\Exception $exception) {}
+
+        $this->ValidateContract($set);
+
+        $result = $this->table->update($set, ['number = ?' => $number]);
+
+        return ($result === 1) ? $number : null;
+    }
+
+    /**
+     * @param $number string
+     * @return null|string
+     */
+    public function DeleteContract($number)
+    {
+        try {
+            $this->getContract($number);
+        } catch (\DomainException $exception) {
+            throw new \InvalidArgumentException('Contract with this number does not exist');
+        }
+        catch (\Exception $exception) {}
+
+        $this->table->delete(['number = ?' => $number]);
+
+        return $number;
+    }
+
+    private function ValidateContract($set)
+    {
+        if (isset($set['price']) && !is_numeric($set['price'])) {
+            throw new \InvalidArgumentException('Price is a numeric field');
+        }
+
+        if (isset($set['rent']) && !is_numeric($set['rent'])) {
+            throw new \InvalidArgumentException('Rent is a numeric field');
+        }
+
+        if(isset($set['type'])) {
+
+            $set['type'] = intval($set['type']);
+            if(!in_array($set['type'], ContractEntity::TYPES)) {
+                throw new \InvalidArgumentException('Invalid type');
+            }
+
+            if($set['type'] === ContractEntity::TYPES[ContractEntity::TYPE_OWNERSHIP]) {
+                if (!isset($set['price'])) {
+                    throw new \InvalidArgumentException('Price is a required field');
+                }
+            }
+
+            if($set['type'] === ContractEntity::TYPES[ContractEntity::TYPE_RENT]) {
+                if (!isset($set['rent'])) {
+                    throw new \InvalidArgumentException('Rent is a required field');
+                }
+            }
+        }
     }
 }
