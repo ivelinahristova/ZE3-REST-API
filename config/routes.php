@@ -30,7 +30,7 @@
 
 use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
 
-$app->get('/', App\Action\HomePageAction::class, 'home');
+$app->get('/', App\Action\GetContractsAction::class, 'home');
 $app->get('/contracts', App\Action\GetContractsAction::class, 'contracts');
 $app->get('/contracts/:number', App\Action\GetContractAction::class, 'contracts.get');
 $app->post('/contracts', App\Action\CreateContractAction::class, 'contracts.create');

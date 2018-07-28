@@ -34,10 +34,8 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                Action\PingAction::class => Action\PingAction::class,
             ],
             'factories'  => [
-                Action\HomePageAction::class => Action\HomePageFactory::class,
                 Action\GetContractsAction::class => Action\GetContractsFactory::class,
                 Action\CreateContractAction::class => Action\CreateContractFactory::class,
                 Action\UpdateContractAction::class => Action\UpdateContractFactory::class,
