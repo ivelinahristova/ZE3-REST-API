@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Action;
+namespace App\Action\Contracts;
 
 use App\Entity\ContractEntity;
 use Interop\Http\ServerMiddleware\DelegateInterface;

@@ -36,11 +36,11 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
-                Action\GetContractsAction::class => Action\GetContractsFactory::class,
-                Action\CreateContractAction::class => Action\CreateContractFactory::class,
-                Action\UpdateContractAction::class => Action\UpdateContractFactory::class,
-                Action\DeleteContractAction::class => Action\DeleteContractFactory::class,
-                Action\GetContractAction::class => Action\GetContractFactory::class,
+                Action\Contracts\GetContractsAction::class => Action\Contracts\GetContractsFactory::class,
+                Action\Contracts\CreateContractAction::class => Action\Contracts\CreateContractFactory::class,
+                Action\Contracts\UpdateContractAction::class => Action\Contracts\UpdateContractFactory::class,
+                Action\Contracts\DeleteContractAction::class => Action\Contracts\DeleteContractFactory::class,
+                Action\Contracts\GetContractAction::class => Action\Contracts\GetContractFactory::class,
                 Model\ContractModel::class => Model\ContractModelFactory::class,
                 'Application\Db\WriteAdapter' => AdapterAbstractServiceFactory::class,
             ],

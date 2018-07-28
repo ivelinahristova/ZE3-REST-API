@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Action;
+namespace App\Action\Contracts;
 
 use Psr\Container\ContainerInterface;
 use App\Model\ContractModel;
 
-class DeleteContractFactory
+class GetContractsFactory
 {
     public function __invoke(ContainerInterface $container)
     {
         $model = $container->get(ContractModel::class);
 
-        return new DeleteContractAction($model);
+        return new GetContractsAction($model);
     }
 }

@@ -30,12 +30,17 @@
 
 use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
 
-$app->get('/', App\Action\GetContractsAction::class, 'home');
-$app->get('/contracts', App\Action\GetContractsAction::class, 'contracts');
-$app->get('/contracts/:number', App\Action\GetContractAction::class, 'contracts.get');
-$app->post('/contracts', App\Action\CreateContractAction::class, 'contracts.create');
+$app->get('/', App\Action\Contracts\GetContractsAction::class, 'home');
+
+/**
+ * Contracts CRUD
+ */
+$app->get('/contracts', App\Action\Contracts\GetContractsAction::class, 'contracts');
+$app->get('/contracts/:number', App\Action\Contracts\GetContractAction::class, 'contracts.get');
+$app->post('/contracts', App\Action\Contracts\CreateContractAction::class, 'contracts.create');
 $app->patch('/contracts/:number', [
         BodyParamsMiddleware::class,
-        App\Action\UpdateContractAction::class
+        App\Action\Contracts\UpdateContractAction::class
     ], 'contracts.update');
-$app->delete('/contracts/:number', [App\Action\DeleteContractAction::class], 'contracts.delete');
+$app->delete('/contracts/:number', [App\Action\Contracts\DeleteContractAction::class], 'contracts.delete');
+
