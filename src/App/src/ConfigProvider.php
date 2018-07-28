@@ -42,6 +42,7 @@ class ConfigProvider
                 Action\CreateContractAction::class => Action\CreateContractFactory::class,
                 Action\UpdateContractAction::class => Action\UpdateContractFactory::class,
                 Action\DeleteContractAction::class => Action\DeleteContractFactory::class,
+                Action\GetContractAction::class => Action\GetContractFactory::class,
                 Model\ContractModel::class => Model\ContractModelFactory::class,
                 'Application\Db\WriteAdapter' => AdapterAbstractServiceFactory::class,
             ],

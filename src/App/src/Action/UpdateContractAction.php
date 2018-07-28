@@ -11,15 +11,19 @@ use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\Response\TextResponse;
 use Fig\Http\Message\StatusCodeInterface;
 use Zend\Db\Adapter\Exception\InvalidQueryException;
+use Zend\Expressive\Helper\UrlHelper;
 
 class UpdateContractAction implements ServerMiddlewareInterface
 {
     private $model;
+    private $helper;
 
     public function __construct(
-        ContractModel $model
+        ContractModel $model,
+        UrlHelper $helper
     ) {
         $this->model = $model;
+        $this->helper = $helper;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -32,7 +36,9 @@ class UpdateContractAction implements ServerMiddlewareInterface
             if(is_null($contractId)) {
                 $response = new TextResponse('Nothing to update', StatusCodeInterface::STATUS_BAD_REQUEST);
             } else {
-                $response = new JsonResponse(['number' => $contractId], StatusCodeInterface::STATUS_OK);
+                $uri = $this->helper->generate('contracts.get', ['number' => $number]);
+                $response = new EmptyResponse(StatusCodeInterface::STATUS_OK);
+                $response->withHeader('Location', $uri);
             }
         } catch (\InvalidArgumentException $exception) {
             $response = new TextResponse($exception->getMessage(), StatusCodeInterface::STATUS_BAD_REQUEST);

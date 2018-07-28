@@ -27,8 +27,8 @@ class DeleteContractAction implements ServerMiddlewareInterface
         $number = $request->getAttribute('number');
 
         try {
-            $contractId = $this->model->DeleteContract($number);
-            $response = new JsonResponse(['number' => $contractId], StatusCodeInterface::STATUS_OK);
+            $this->model->DeleteContract($number);
+            $response = new EmptyResponse(StatusCodeInterface::STATUS_NO_CONTENT);
 
         } catch (\InvalidArgumentException $exception) {
             $response = new TextResponse($exception->getMessage(), StatusCodeInterface::STATUS_BAD_REQUEST);

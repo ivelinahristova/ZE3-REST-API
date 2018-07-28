@@ -30,7 +30,7 @@ class ContractModel
         $result = $contract->current();
 
         if (! $result instanceof ContractEntity) {
-            throw new \DomainException();
+            throw new \DomainException('Contract not found');
         }
         return $result;
     }
