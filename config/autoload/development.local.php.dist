@@ -31,4 +31,12 @@ return [
             'ajax_only'  => true,
         ],
     ],
+
+    'db' => [
+        'driver'   => '',
+        'dsn'      => '',
+        'database' => '',
+        'user'     => '',
+        'password' => ''
+    ],
 ];
