@@ -62,3 +62,15 @@ $app->delete('/properties/:id', [App\Action\Properties\DeletePropertyAction::cla
 //$app->get('/properties/:id', App\Action\Properties\GetPropertyAction::class, 'properties.get');
 $app->post('/contract_properties', App\Action\ContractProperties\CreateContractPropertiesAction::class, 'contract_properties.create');
 $app->delete('/contract_properties/:number/:property_id', [App\Action\ContractProperties\DeleteContractPropertiesAction::class], 'contract_properties.delete');
+
+/**
+ * Landlords CRUD
+ */
+$app->get('/landlords', App\Action\Landlords\GetLandlordsAction::class, 'landlords');
+$app->get('/landlords/:id', App\Action\Landlords\GetLandlordAction::class, 'landlords.get');
+$app->post('/landlords', App\Action\Landlords\CreateLandlordAction::class, 'landlords.create');
+$app->delete('/landlords/:id', [App\Action\Landlords\DeleteLandlordAction::class], 'landlords.delete');
+$app->patch('/landlords/:id', [
+    BodyParamsMiddleware::class,
+    App\Action\Landlords\UpdateLandlordAction::class
+], 'landlords.update');

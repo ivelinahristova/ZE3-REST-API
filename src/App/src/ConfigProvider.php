@@ -52,6 +52,13 @@ class ConfigProvider
 
                 Action\ContractProperties\CreateContractPropertiesAction::class => Action\ContractProperties\CreateContractPropertiesFactory::class,
                 Action\ContractProperties\DeleteContractPropertiesAction::class => Action\ContractProperties\DeleteContractPropertiesFactory::class,
+
+                Model\LandlordModel::class => Model\LandlordModelFactory::class,
+                Action\Landlords\CreateLandlordAction::class => Action\Landlords\CreateLandlordFactory::class,
+                Action\Landlords\GetLandlordAction::class => Action\Landlords\GetLandlordFactory::class,
+                Action\Landlords\GetLandlordsAction::class => Action\Landlords\GetLandlordsFactory::class,
+                Action\Landlords\DeleteLandlordAction::class => Action\Landlords\DeleteLandlordFactory::class,
+                Action\Landlords\UpdateLandlordAction::class => Action\Landlords\UpdateLandlordFactory::class,
                 'Application\Db\WriteAdapter' => AdapterAbstractServiceFactory::class,
             ],
         ];

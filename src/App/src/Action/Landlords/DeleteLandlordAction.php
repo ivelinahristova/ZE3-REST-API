@@ -1,34 +1,34 @@
 <?php
 
-namespace App\Action\ContractProperties;
+namespace App\Action\Landlords;
 
+use App\Model\LandlordModel;
+use App\Model\PropertyModel;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
 use Zend\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Model\ContractModel;
 use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\Response\TextResponse;
 use Fig\Http\Message\StatusCodeInterface;
 use Zend\Db\Adapter\Exception\InvalidQueryException;
 
-class DeleteContractPropertiesAction implements ServerMiddlewareInterface
+class DeleteLandlordAction implements ServerMiddlewareInterface
 {
     private $model;
 
     public function __construct(
-        ContractModel $model
+        LandlordModel $model
     ) {
         $this->model = $model;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $number = $request->getAttribute('number');
-        $propertyId = $request->getAttribute('property_id');
+        $id = $request->getAttribute('id');
 
         try {
-            $this->model->DeleteContractProperty($number, $propertyId);
+            $this->model->DeleteLandlord($id);
             $response = new EmptyResponse(StatusCodeInterface::STATUS_NO_CONTENT);
 
         } catch (\InvalidArgumentException $exception) {
