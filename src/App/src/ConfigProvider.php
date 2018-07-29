@@ -49,6 +49,9 @@ class ConfigProvider
                 Action\Properties\GetPropertyAction::class => Action\Properties\GetPropertyFactory::class,
                 Action\Properties\UpdatePropertyAction::class => Action\Properties\UpdatePropertyFactory::class,
                 Action\Properties\DeletePropertyAction::class => Action\Properties\DeletePropertyFactory::class,
+
+                Action\ContractProperties\CreateContractPropertiesAction::class => Action\ContractProperties\CreateContractPropertiesFactory::class,
+                Action\ContractProperties\DeleteContractPropertiesAction::class => Action\ContractProperties\DeleteContractPropertiesFactory::class,
                 'Application\Db\WriteAdapter' => AdapterAbstractServiceFactory::class,
             ],
         ];

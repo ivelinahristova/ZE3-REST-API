@@ -5,13 +5,18 @@ use App\Entity\ContractEntity;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Sql;
 
 class ContractModel
 {
     private $table;
+    private $adapter;
+    private $propertyModel;
 
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(AdapterInterface $adapter, PropertyModel $propertyModel)
     {
+        $this->adapter = $adapter;
+        $this->propertyModel = $propertyModel;
         $resultSet = new HydratingResultSet();
         $resultSet->setObjectPrototype(new ContractEntity());
         $this->table = new TableGateway('contracts', $adapter, null, $resultSet);
@@ -122,6 +127,69 @@ class ContractModel
         $this->table->delete(['number = ?' => $number]);
 
         return $number;
+    }
+
+    public function AddProperty($set)
+    {
+        if (!isset($set['number'])) {
+            throw new \InvalidArgumentException('Number is a required field');
+        }
+
+        if (!isset($set['property_id'])) {
+            throw new \InvalidArgumentException('Property_id is a required field');
+        }
+
+        try {
+            $this->getContract($set['number']);
+        } catch (\DomainException $exception) {
+            throw new \InvalidArgumentException('Contract with this number does not exist');
+        }
+        catch (\Exception $exception) {}
+
+        try {
+            $this->propertyModel->getProperty($set['property_id']);
+        } catch (\DomainException $exception) {
+            throw new \InvalidArgumentException('Property with this id does not exist');
+        }
+        catch (\Exception $exception) {}
+
+        $sql    = new Sql($this->adapter);
+        $properties = $sql->insert('contracts_properties')
+            ->values([
+                'contract_number' => $set['number'],
+                'property_id' => $set['property_id'],
+            ]);
+
+        $statement = $sql->prepareStatementForSqlObject($properties);
+        $results = $statement->execute();
+
+        return $results;
+    }
+
+    public function DeleteContractProperty($number, $propertyId)
+    {
+        try {
+            $this->getContract($number);
+        } catch (\DomainException $exception) {
+            throw new \InvalidArgumentException('Contract with this number does not exist');
+        }
+        catch (\Exception $exception) {}
+
+        try {
+            $this->propertyModel->getProperty($propertyId);
+        } catch (\DomainException $exception) {
+            throw new \InvalidArgumentException('Property with this id does not exist');
+        }
+        catch (\Exception $exception) {}
+
+        $sql    = new Sql($this->adapter);
+        $properties = $sql->delete('contracts_properties')
+            ->where(['contract_number = ?' => $number, 'property_id' => $propertyId]);
+
+        $statement = $sql->prepareStatementForSqlObject($properties);
+        $results = $statement->execute();
+
+        return $results;
     }
 
     private function ValidateContract($set)

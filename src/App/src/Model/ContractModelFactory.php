@@ -9,7 +9,7 @@ class ContractModelFactory
     {
 
         $adapter = $container->get(AdapterInterface::class);
-
-        return new ContractModel($adapter);
+        $propertyModel = new PropertyModel($adapter);
+        return new ContractModel($adapter, $propertyModel);
     }
 }

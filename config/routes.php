@@ -56,3 +56,9 @@ $app->patch('/properties/:id', [
 ], 'properties.update');
 $app->delete('/properties/:id', [App\Action\Properties\DeletePropertyAction::class], 'properties.delete');
 
+/**
+ * Contract Properties CRUD
+ */
+//$app->get('/properties/:id', App\Action\Properties\GetPropertyAction::class, 'properties.get');
+$app->post('/contract_properties', App\Action\ContractProperties\CreateContractPropertiesAction::class, 'contract_properties.create');
+$app->delete('/contract_properties/:number/:property_id', [App\Action\ContractProperties\DeleteContractPropertiesAction::class], 'contract_properties.delete');
