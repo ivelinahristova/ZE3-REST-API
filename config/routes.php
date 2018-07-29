@@ -44,3 +44,15 @@ $app->patch('/contracts/:number', [
     ], 'contracts.update');
 $app->delete('/contracts/:number', [App\Action\Contracts\DeleteContractAction::class], 'contracts.delete');
 
+/**
+ * Properties CRUD
+ */
+$app->get('/properties', App\Action\Properties\GetPropertiesAction::class, 'properties');
+$app->get('/properties/:id', App\Action\Properties\GetPropertyAction::class, 'properties.get');
+$app->post('/properties', App\Action\Properties\CreatePropertyAction::class, 'properties.create');
+$app->patch('/properties/:id', [
+    BodyParamsMiddleware::class,
+    App\Action\Properties\UpdatePropertyAction::class
+], 'properties.update');
+$app->delete('/properties/:id', [App\Action\Properties\DeletePropertyAction::class], 'properties.delete');
+
