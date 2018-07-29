@@ -130,4 +130,39 @@ class PropertyModel
 
         return $id;
     }
+
+    public function AddLandlord($set)
+    {
+        if (!isset($set['landlord_id'])) {
+            throw new \InvalidArgumentException('Landlord_id is a required field');
+        }
+
+        if (!isset($set['property_id'])) {
+            throw new \InvalidArgumentException('Property_id is a required field');
+        }
+
+        if (!isset($set['percent'])) {
+            $set['percent'] = 100;
+        }
+
+        try {
+            $this->getProperty($set['property_id']);
+        } catch (\DomainException $exception) {
+            throw new \InvalidArgumentException('Property with this id does not exist');
+        }
+        catch (\Exception $exception) {}
+
+        $sql    = new Sql($this->adapter);
+        $properties = $sql->insert('properties_landlords')
+            ->values([
+                'landlord_id' => $set['landlord_id'],
+                'property_id' => $set['property_id'],
+                'percent' => $set['percent']
+            ]);
+
+        $statement = $sql->prepareStatementForSqlObject($properties);
+        $results = $statement->execute();
+
+        return $results;
+    }
 }

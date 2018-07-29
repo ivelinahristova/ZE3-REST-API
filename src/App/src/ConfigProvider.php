@@ -59,6 +59,8 @@ class ConfigProvider
                 Action\Landlords\GetLandlordsAction::class => Action\Landlords\GetLandlordsFactory::class,
                 Action\Landlords\DeleteLandlordAction::class => Action\Landlords\DeleteLandlordFactory::class,
                 Action\Landlords\UpdateLandlordAction::class => Action\Landlords\UpdateLandlordFactory::class,
+
+                Action\PropertyLandlords\CreatePropertyLandlordsAction::class => Action\PropertyLandlords\CreatePropertyLandlordsFactory::class,
                 'Application\Db\WriteAdapter' => AdapterAbstractServiceFactory::class,
             ],
         ];

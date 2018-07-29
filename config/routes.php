@@ -74,3 +74,10 @@ $app->patch('/landlords/:id', [
     BodyParamsMiddleware::class,
     App\Action\Landlords\UpdateLandlordAction::class
 ], 'landlords.update');
+
+
+/**
+ * Property Landlords CRUD
+ * @todo: delete
+ */
+$app->post('/property_landlords', App\Action\PropertyLandlords\CreatePropertyLandlordsAction::class, 'property_landlords.create');
