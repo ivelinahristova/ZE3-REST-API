@@ -41,6 +41,7 @@ class ConfigProvider
                 Action\Contracts\UpdateContractAction::class => Action\Contracts\UpdateContractFactory::class,
                 Action\Contracts\DeleteContractAction::class => Action\Contracts\DeleteContractFactory::class,
                 Action\Contracts\GetContractAction::class => Action\Contracts\GetContractFactory::class,
+                Action\Contracts\GetPropertiesAction::class => Action\Contracts\GetPropertiesFactory::class,
                 Model\ContractModel::class => Model\ContractModelFactory::class,
                 Model\PropertyModel::class => Model\PropertyModelFactory::class,
                 Action\Properties\GetPropertiesAction::class => Action\Properties\GetPropertiesFactory::class,

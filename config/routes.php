@@ -43,7 +43,7 @@ $app->patch('/contracts/:number', [
         App\Action\Contracts\UpdateContractAction::class
     ], 'contracts.update');
 $app->delete('/contracts/:number', [App\Action\Contracts\DeleteContractAction::class], 'contracts.delete');
-
+$app->get('/contracts/:number/properties', App\Action\Contracts\GetPropertiesAction::class, 'contracts.properties.get');
 /**
  * Properties CRUD
  */

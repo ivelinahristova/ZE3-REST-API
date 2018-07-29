@@ -5,13 +5,16 @@ use App\Entity\PropertyEntity;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Sql;
 
 class PropertyModel
 {
     private $table;
+    private $adapter;
 
     public function __construct(AdapterInterface $adapter)
     {
+        $this->adapter = $adapter;
         $resultSet = new HydratingResultSet();
         $resultSet->setObjectPrototype(new PropertyEntity());
         $this->table = new TableGateway('properties', $adapter, null, $resultSet);
@@ -43,6 +46,26 @@ class PropertyModel
     {
         $properties = $this->table->select();
         $propertiesArray = $properties->toArray();
+
+        return $propertiesArray;
+    }
+
+    /**
+     * @param $number string
+     * @return array
+     */
+    public function getPropertiesByContract($number)
+    {
+        $sql    = new Sql($this->adapter);
+        $properties = $sql->select()
+            ->from(['cp' => 'contracts_properties'])
+            ->join(array('p' => 'properties'),
+                'cp.property_id = p.id')
+            ->where(['cp.contract_number = ?' => $number]);
+
+        $statement = $sql->prepareStatementForSqlObject($properties);
+        $results = $statement->execute();
+        $propertiesArray = $results->getResource()->fetchAll(\PDO::FETCH_ASSOC);
 
         return $propertiesArray;
     }
