@@ -2,6 +2,7 @@
 
 namespace App\Action\Contracts;
 
+use App\Entity\ContractEntity;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
 use Zend\Diactoros\Response\JsonResponse;
@@ -21,7 +22,14 @@ class GetContractsAction implements ServerMiddlewareInterface
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $contracts = $this->model->getContracts();
+        $params = $request->getQueryParams();
+        $type = isset($params['type']) ? $params['type'] : false;
+
+        if($type && array_key_exists($type, ContractEntity::TYPES)) {
+            $contracts = $this->model->getContractsByType($type);
+        } else {
+            $contracts = $this->model->getContracts();
+        }
 
         return new JsonResponse($contracts);
     }

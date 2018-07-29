@@ -52,10 +52,23 @@ class ContractModel
     }
 
     /**
+     * @param $type string
+     * @return array
+     */
+    public function getContractsByType($type)
+    {
+        $typeValue = ContractEntity::TYPES[$type];
+        $contracts = $this->table->select(['type = ?' => $typeValue]);
+        $contractsArray = $contracts->toArray();
+
+        return $contractsArray;
+    }
+
+    /**
      * @param $set
      * @return int|null
      */
-    public function createContract($set) //@todo: redirect to resource
+    public function createContract($set)
     {
         if (!isset($set['number'])) {
             throw new \InvalidArgumentException('Number is a required field');
